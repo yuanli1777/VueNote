@@ -4,7 +4,6 @@
 - 官方发版地址：[Release v3.0.0 One Piece · vuejs/core](https://github.com/vuejs/core/releases/tag/v3.0.0)
 - 截止2023年10月，最新的公开版本为：`3.3.4`
 
-  <img src="images/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2.png" alt="image.png" style="zoom:30%;" /> 
 
 ## 1.1. 【性能的提升】
 
@@ -2282,7 +2281,7 @@ function sendToy(){
      // 注入数据
     let {money,updateMoney} = inject('moneyContext',{money:0,updateMoney:(x:number)=>{}})
      let car = inject('car')
-</script>
+   </script>
    ```
 
 
