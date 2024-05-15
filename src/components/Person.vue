@@ -12,12 +12,13 @@
 export default {
   name: 'Person',
   beforeCreate() {
-    console.log('beforeCreate')
+    console.log('beforeCreate')//setup执行时机比beforeCreate还早
   },
   setup() {
     console.log(this) //setup中的this是undefined，Vue3在弱化this了
     // 数据，原来是写在data中的，此时的name、age、tel都不是响应式的数据
     let name = '张三'
+    
     let age = 18
     let tel = '13888888888'
 

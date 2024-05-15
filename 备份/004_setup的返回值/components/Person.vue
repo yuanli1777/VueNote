@@ -37,7 +37,8 @@
       // 将数据、方法交出去，模板中才可以使用
       return {name,age,tel,changeName,changeAge,showTel}
 
-      // setup的返回值也可以是一个渲染函数
+      // setup的返回值也可以是一个渲染函数(可以将返回值渲染到页面上去，模板都展示不了了)
+      //vue3弱化this，因此setup的返回值：一个函数-->可以直接写成箭头函数
       // return ()=>'哈哈'
     }
   }
