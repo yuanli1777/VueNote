@@ -1024,7 +1024,7 @@ function test(){
   let age = ref(18)
   /****************************/
   /****************************/
-  // 使用defineExpose将组件中的数据交给外部
+  // 使用defineExpose将组件中的数据导出交给外部
   defineExpose({name,age})
 </script>
 ```
