@@ -488,7 +488,7 @@ function test(){
 
 > 1. `ref`创建的变量必须使用`.value`（可以使用`volar`插件自动添加`.value`）。
 >
->    <img src="images/自动补充value.png" alt="自动补充value" style="zoom:50%;border-radius:20px" /> 
+>    <img src="images/自动补充value.png" alt="自动补充value" style="zoom:90%;border-radius:20px" /> 
 >
 > 2. `reactive`重新分配一个新对象，会**失去**响应式（可以使用`Object.assign`去整体替换）。
 
@@ -499,7 +499,7 @@ function test(){
 
 ## 3.7. 【toRefs 与 toRef】
 
-- 作用：将一个响应式对象中的每一个属性，转换为`ref`对象。
+- 作用：将一个响应式对象中的每一个属性，转换为`ref`对象。并且改变解构的值，也会影响到原响应式对象的值。
 - 备注：`toRefs`与`toRef`功能一致，但`toRefs`可以批量转换。
 - 语法如下：
 ```vue
@@ -521,6 +521,7 @@ function test(){
   let person = reactive({name:'张三', age:18, gender:'男'})
 	
   // 通过toRefs将person对象中的n个属性批量取出，且依然保持响应式的能力
+  //改变name和gender的值，也会影响到person里面的值
   let {name,gender} =  toRefs(person)
 	
   // 通过toRef将person对象中的gender属性取出，且依然保持响应式的能力

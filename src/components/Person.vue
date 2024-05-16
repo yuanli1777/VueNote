@@ -1,38 +1,40 @@
 <template>
   <div class="person">
-    <h2>姓名：{{ name }}</h2>
-    <h2>年龄：{{ age }}</h2>
-    <h2>地址：{{ address }}</h2>
+    <h2>姓名：{{ person.name }}</h2>
+    <h2>年龄：{{ person.age }}，{{ nl }}</h2>
     <button @click="changeName">修改名字</button>
     <button @click="changeAge">修改年龄</button>
-    <button @click="showTel">查看联系方式</button>
   </div>
 </template>
 
 <script lang="ts" setup name="Person">
-import { ref } from 'vue'
-//响应式ref
-let name = ref('张三')
-let age = ref(18)
-let tel = '13888888888'
-let address = '北京昌平区宏福苑·宏福科技园'
+import { reactive, toRefs, toRef } from 'vue'
 
-console.log(1,name)
-console.log(2,age)
-console.log(3, address)
-console.log(4, tel)
+// 数据
+let person = reactive({
+  name: '张三',
+  age: 18
+})
+
+//此时解构出的name，age不是响应式对象，只不过name和age的值指向的是person.name和person.age
+// let { name, age } = person
+
+// 使用toRefs从person这个响应式对象中，解构出name、age，且name和age依然是响应式的
+// name和age的值是ref类型，其value值指向的是person.name和person.age
+let { name, age } = toRefs(person)
+let nl = toRef(person, 'age')
+
+console.log(nl.value)
+
 // 方法
 function changeName() {
-  name.value = 'zhang-san' // JS中操作ref对象时候需要.value
-  console.log(name.value)
+  name.value += '~'
+  console.log(name.value, person.name)
 }
 function changeAge() {
   age.value += 1
-  console.log(age.value) // JS中操作ref对象时候需要.value
 }
-function showTel() {
-  alert(tel)
-}
+
 </script>
 
 <style scoped>
@@ -45,5 +47,9 @@ function showTel() {
 
 button {
   margin: 0 5px;
+}
+
+li {
+  font-size: 20px;
 }
 </style>
