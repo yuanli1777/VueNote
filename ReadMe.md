@@ -491,6 +491,8 @@ function test(){
 >    <img src="images/自动补充value.png" alt="自动补充value" style="zoom:90%;border-radius:20px" /> 
 >
 > 2. `reactive`重新分配一个新对象，会**失去**响应式（可以使用`Object.assign`去整体替换）。
+>
+> 	` Object.assign(car, { brand: '奥拓', price: 1 })`
 
 - 使用原则：
 > 1. 若需要一个基本类型的响应式数据，必须使用`ref`。
@@ -543,6 +545,10 @@ function test(){
 
 作用：根据已有数据计算出新数据（和`Vue2`中的`computed`作用一致）。
 
+实现同样的功能，方法function没有缓存，模板调用几次，函数就执行几次；计算属性computed有缓存，模板调用多次，实际上只执行一次。
+
+计算属性实际上是一个ref响应式对象，因此赋值时候需要加上`.value`
+
 <img src="images/computed.gif" style="zoom:20%;" />  
 
 ```vue
@@ -551,12 +557,13 @@ function test(){
     姓：<input type="text" v-model="firstName"> <br>
     名：<input type="text" v-model="lastName"> <br>
     全名：<span>{{fullName}}</span> <br>
+    全名：<span>{{fullName}}</span> <br>
     <button @click="changeFullName">全名改为：li-si</button>
   </div>
 </template>
 
 <script setup lang="ts" name="App">
-  import {ref,computed} from 'vue'
+  import {ref,computed} from 'vue'	//引入computed
 
   let firstName = ref('zhang')
   let lastName = ref('san')
@@ -578,11 +585,15 @@ function test(){
       console.log('有人修改了fullName',val)
       firstName.value = val.split('-')[0]
       lastName.value = val.split('-')[1]
+      //第二种写法  
+      //const [str1,str2] = val.split('-')
+      //firstName.value = str1
+      //lastName.value = str2
     }
   })
 
   function changeFullName(){
-    fullName.value = 'li-si'
+    fullName.value = 'li-si'	//引起set的val变化
   } 
 </script>
 ```
@@ -671,12 +682,17 @@ function test(){
   */
   watch(person,(newValue,oldValue)=>{
     console.log('person变化了',newValue,oldValue)
-  },{deep:true})
+  },{deep:true,immediate:true})
   
 </script>
 ```
 ### *  情况三
-监视`reactive`定义的【对象类型】数据，且默认开启了深度监视。
+监视`reactive`定义的【对象类型】数据，且默认开启了深度监视，且深层监视无法关闭。
+
+无法监视地址值，因为对象地址值没有改变，本质上assign在原对象上进行的是赋值。
+
+`newValue`和`oldValue`值相同，都是新值，还是因为对象地址值没有改变，本质上assign在原对象上进行的是赋值。
+
 ```vue
 <template>
   <div class="person">
@@ -714,7 +730,9 @@ function test(){
     person.age += 1
   }
   function changePerson(){
-    Object.assign(person,{name:'李四',age:80})
+   	// person = { name: '李四', age: 80 }//直接修改，不行
+  	// person = reactive({ name: '李四', age: 80 })//reactive包裹修改，也不行
+    Object.assign(person,{name:'李四',age:80})//本质上替换了原person的每个属性值
   }
   function test(){
     obj.a.b.c = 888
@@ -732,10 +750,19 @@ function test(){
 ### * 情况四
 监视`ref`或`reactive`定义的【对象类型】数据中的**某个属性**，注意点如下：
 
-1. 若该属性值**不是**【对象类型】，需要写成函数形式。
+1. 若该属性值**不是**【对象类型】即【基本类型】，需要写成函数形式，此时oldValue是旧值，newValue是新值。
+
 2. 若该属性值是**依然**是【对象类型】，可直接编，也可写成函数，建议写成函数。
 
-结论：监视的要是对象里的属性，那么最好写函数式，注意点：若是对象监视的是地址值，需要关注对象内部，需要手动开启深度监视。
+	> **直接写：**可以监视到对象内部属性a，b...的变化，但是监视不到整体的变化。整体改变时，对象地址值变化了，所以监视不到了。
+	>
+	> **写函数（不开启深度监视）：**监视不到对象内部属性a，b...的变化，但是可以监视到整体的变化，函数返回值监视的是对象的地址值，改变整体是产生一个新对象，所以能监视到，并且新值是新值，旧值是旧值。（不过对象内部属性a，b...的新旧值都是新值）
+	>
+	> **写函数（开启深度监视）推荐：**既能监视到对象内部属性a，b...的变化，也可以监视到整体的变化，函数返回值监视的是对象的地址值，改变整体是产生一个新对象，所以能监视到，并且新值是新值，旧值是旧值。（不过对象内部属性a，b...的新旧值都是新值）
+
+结论：监视的要是对象里的属性，那么最好写函数式。
+
+注意点：若是对象监视的是地址值，需要关注对象内部，需要手动开启深度监视。
 
 ```vue
 <template>
@@ -781,12 +808,21 @@ function test(){
     person.car = {c1:'雅迪',c2:'爱玛'}
   }
 
-  // 监视，情况四：监视响应式对象中的某个属性，且该属性是基本类型的，要写成函数式
+  // 监视，情况四：监视响应式对象中的某个属性，且该属性是【基本类型】的，要写成函数式
   /* watch(()=> person.name,(newValue,oldValue)=>{
     console.log('person.name变化了',newValue,oldValue)
   }) */
 
-  // 监视，情况四：监视响应式对象中的某个属性，且该属性是对象类型的，可以直接写，也能写函数，更推荐写函数
+  // 监视，情况四：监视响应式对象中的某个属性，且该属性是【对象类型】的，可以直接写，也能写函数，更推荐写函数
+  //直接写：
+  watch(person.car, (newValue, oldValue) => {
+  console.log('person.car变化了', newValue, oldValue)
+}, { deep: true })
+  //写函数（不开启深度监视）：
+  watch(()=>person.car,(newValue,oldValue)=>{
+    console.log('person.car变化了',newValue,oldValue)
+  })
+  //写函数（开启深度监视）：
   watch(()=>person.car,(newValue,oldValue)=>{
     console.log('person.car变化了',newValue,oldValue)
   },{deep:true})
