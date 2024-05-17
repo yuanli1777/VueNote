@@ -1349,6 +1349,9 @@ function test(){
 >
 > 2. 通过点击导航，视觉效果上“消失” 了的路由组件，默认是被**卸载**掉的，需要的时候再去**挂载**。
 
+- 路由组件：靠路由规则渲染出来的。`route:[{path:/demo,component:demo}]`
+- 一般组件：亲手写出来的标签。`<demo/>`
+
 ## 4.4.【路由器工作模式】
 
 1. `history`模式
@@ -1359,10 +1362,18 @@ function test(){
    >
    > ```js
    > const router = createRouter({
-   >   	history:createWebHistory(), //history模式
-   >   	/******/
+   > 	history:createWebHistory(), //history模式
+   > 	/******/
    > })
    > ```
+   >
+   > 各版本：
+   >
+   > vue2——`mode:'history'`
+   >
+   > vue3——`history:createWebHistory()`
+   >
+   > React——`BrowserRouter`
 
 2. `hash`模式
 
