@@ -1837,7 +1837,7 @@ app.mount('#app')
   /* 引入storeToRefs */
   import { storeToRefs } from 'pinia'
 
-	/* 得到countStore */
+  /* 得到countStore */
   const countStore = useCountStore()
   /* 使用storeToRefs转换countStore，随后解构 */
   const {sum} = storeToRefs(countStore)
