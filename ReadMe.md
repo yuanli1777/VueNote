@@ -2007,6 +2007,7 @@ export const useTalkStore = defineStore('talk',()=>{
 - 自定义事件：
   - 事件名是任意名称
   - <strong style="color:red">事件对象`$event`: 是调用`emit`时所提供的数据，可以是任意类型！！！</strong >
+  - 命名方式尽量不要驼峰式，而是采取keybab-case式，即`send-toy`
 
 3. 示例：
 
