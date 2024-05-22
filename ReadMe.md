@@ -1428,10 +1428,14 @@ routes:[
 
 ```vue
 <!--简化前：需要写完整的路径（to的字符串写法） -->
+<!--to写法(通过路径）-->
 <router-link to="/news/detail">跳转</router-link>
 
 <!--简化后：直接通过名字跳转（to的对象写法配合name属性） -->
+<!--:to写法(通过名字）-->
 <router-link :to="{name:'guanyu'}">跳转</router-link>
+<!--:to写法(通过路径）-->
+<router-link :to="{path:'/about'}">跳转</router-link>
 ```
 
 
