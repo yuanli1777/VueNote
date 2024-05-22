@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts" name="Child2">
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, type Ref } from 'vue'
 import emitter from '@/utils/emitter';
 // 数据
 let computer = ref('联想')

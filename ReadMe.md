@@ -2036,6 +2036,10 @@ npm i mitt
 
 新建文件：`src\utils\emitter.ts`
 
+- on	触发事件
+- off        移除事件
+- all.clear	移除全部事件
+
 ```javascript
 // 引入mitt 
 import mitt from "mitt";
@@ -2116,6 +2120,12 @@ function sendToy(){
    >
    ```
 
+   > - (<HTMLInputElement>$event.target)这个是ts的类型断言，target一定是html元素而不为空
+   > - 数据到页面     `:value="userName" `
+   > - 页面到数据    `@input="userName =(<HTMLInputElement>$event.target).value" `
+
+   
+
 3. 组件标签上的`v-model`的本质：`:moldeValue` ＋ `update:modelValue`事件。
 
    ```vue
@@ -2126,13 +2136,18 @@ function sendToy(){
    <AtguiguInput :modelValue="userName" @update:model-value="userName = $event"/>
    ```
 
+   > 在vue3中：
+   >
+   > - 数据到页面     `:modelValue="userName" `
+   > - 页面到数据    `@update:model-value="userName = $event" `
+
    `AtguiguInput`组件中：
 
    ```vue
    <template>
      <div class="box">
        <!--将接收的value值赋给input元素的value属性，目的是：为了呈现数据 -->
-   		<!--给input元素绑定原生input事件，触发input事件时，进而触发update:model-value事件-->
+   	<!--给input元素绑定原生input事件，触发input事件时，进而触发update:model-value事件-->
        <input 
           type="text" 
           :value="modelValue" 
@@ -2185,6 +2200,12 @@ function sendToy(){
    ```vue
    <AtguiguInput v-model:abc="userName" v-model:xyz="password"/>
    ```
+
+6. 关于`$event`到底是什么？什么时候能够`.target`？
+
+   对于原生事件，`$event`就是事件对象====>能`.target`
+
+   对于自定义事件，`$event`就是触发事件时，所传递的对象====>不能`.target`
 
    
 
