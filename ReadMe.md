@@ -2406,6 +2406,7 @@ function sendToy(){
               <li v-for="g in games" :key="g.id">{{ g.name }}</li>
             </ul>
           </template>
+            
           <template #s2>
             <a href="">更多</a>
           </template>
@@ -2422,7 +2423,7 @@ function sendToy(){
 
 ### 3. 作用域插槽 
 
-1. 理解：<span style="color:red">数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。</span>（新闻数据在`News`组件中，但使用数据所遍历出来的结构由`App`组件决定）
+1. 理解：<span style="color:red">数据在组件的自身（子组件），但根据数据生成的结构需要组件的使用者（父组件）来决定。</span>（新闻数据在`News`组件中，但使用数据所遍历出来的结构由`App`组件决定）
 
 3. 具体编码：
 
