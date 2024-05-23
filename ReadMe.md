@@ -334,7 +334,8 @@ export default defineConfig({
 - **语法：**`let xxx = ref(初始值)`。
 - **返回值：**一个`RefImpl`的实例对象，简称`ref对象`或`ref`，`ref`对象的`value`**属性是响应式的**。
 - **注意点：**
-   - `JS`中操作数据需要：`xxx.value`，但模板中不需要`.value`，直接使用即可。
+   - `tS`中操作数据需要：`xxx.value`，但模板中不需要`.value`，直接使用即可。
+   - 何时需要`.value`？模板中不需要；包裹在响应式对象里面的ref不需要；未包裹的ref需要。
    - 对于`let name = ref('张三')`来说，`name`不是响应式的，`name.value`是响应式的。
 ```vue
 <template>
@@ -2298,6 +2299,8 @@ function sendToy(){
 	// 宏函数把数据交给外部
 	defineExpose({ toy, book })
 	```
+
+	
 
 ## 6.7. 【provide、inject】
 

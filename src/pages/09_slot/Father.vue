@@ -5,7 +5,10 @@
       <Game>
         <template v-slot="params">
           <ul>
-            <li v-for="y in params.youxi" :key="y.id">
+            <li
+              v-for="y in params.youxi"
+              :key="y.id"
+            >
               {{ y.name }}
             </li>
           </ul>
@@ -15,7 +18,10 @@
       <Game>
         <template v-slot="params">
           <ol>
-            <li v-for="item in params.youxi" :key="item.id">
+            <li
+              v-for="item in params.youxi"
+              :key="item.id"
+            >
               {{ item.name }}
             </li>
           </ol>
@@ -23,8 +29,11 @@
       </Game>
 
       <Game>
-        <template #default="{youxi}">
-          <h3 v-for="g in youxi" :key="g.id">{{ g.name }}</h3>
+        <template #default="{ youxi }">
+          <h3
+            v-for="g in youxi"
+            :key="g.id"
+          >{{ g.name }}</h3>
         </template>
       </Game>
 
@@ -33,20 +42,23 @@
 </template>
 
 <script setup lang="ts" name="Father">
-  import Game from './Game.vue'
+import Game from './Game.vue'
 </script>
 
 <style scoped>
-  .father {
-    background-color: rgb(165, 164, 164);
-    padding: 20px;
-    border-radius: 10px;
-  }
-  .content {
-    display: flex;
-    justify-content: space-evenly;
-  }
-  img,video {
-    width: 100%;
-  }
+.father {
+  background-color: rgb(165, 164, 164);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+img,
+video {
+  width: 100%;
+}
 </style>
