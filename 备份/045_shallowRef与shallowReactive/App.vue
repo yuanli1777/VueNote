@@ -16,54 +16,55 @@
 </template>
 
 <script setup lang="ts" name="App">
-	import { ref,reactive,shallowRef,shallowReactive } from 'vue'
+import { ref, reactive, shallowRef, shallowReactive } from 'vue'
 
-	let sum = shallowRef(0)
-	let person = shallowRef({
-		name:'张三',
-		age:18
-	})
-	let car = shallowReactive({
-		barnd:'奔驰',
-		options:{
-			color:'红色',
-			engine:'V8'
-		}
-	})
+let sum = shallowRef(0)
+let person = shallowRef({
+	name: '张三',
+	age: 18
+})
+let car = shallowReactive({
+	barnd: '奔驰',
+	options: {
+		color: '红色',
+		engine: 'V8'
+	}
+})
 
-	function changeSum (){
-		sum.value += 1
-	}
-	function changeName (){
-		person.value.name = '李四'
-	}
-	function changeAge (){
-		person.value.age += 1
-	}
-	function changePerson (){
-		person.value = {name:'tony',age:100}
-	}
-	/* ****************** */
-	function changeBrand(){
-		car.barnd = '宝马'
-	}
-	function changeColor(){
-		car.options.color = '紫色'
-	}
-	function changeEngine(){
-		car.options.engine = 'V12'
-	}
+function changeSum() {
+	sum.value += 1
+}
+function changeName() {
+	person.value.name = '李四'
+}
+function changeAge() {
+	person.value.age += 1
+}
+function changePerson() {
+	person.value = { name: 'tony', age: 100 }
+}
+/* ****************** */
+function changeBrand() {
+	car.barnd = '宝马'
+}
+function changeColor() {
+	car.options.color = '紫色'
+}
+function changeEngine() {
+	car.options.engine = 'V12'
+}
 
 </script>
 
 <style scoped>
-	.app {
-		background-color: #ddd;
-		border-radius: 10px;
-		box-shadow: 0 0 10px;
-		padding: 10px;
-	}
-	button {
-		margin:0 5px;
-	}
+.app {
+	background-color: #ddd;
+	border-radius: 10px;
+	box-shadow: 0 0 10px;
+	padding: 10px;
+}
+
+button {
+	margin: 0 5px;
+}
 </style>

@@ -2594,19 +2594,22 @@ function sendToy(){
 
 作用：创建一个自定义的`ref`，并对其依赖项跟踪和更新触发进行逻辑控制。
 
-实现防抖效果（`useSumRef.ts`）：
+实现防抖效果（`useSumRef.ts`）封装在hooks里面：
 
 ```typescript
 import {customRef } from "vue";
 
 export default function(initValue:string,delay:number){
+  //track（跟踪），trigger（触发）
   let msg = customRef((track,trigger)=>{
-    let timer:number
+  	let timer:number
     return {
+      //get何时调用？——msg被读取时候
       get(){
         track() // 告诉Vue数据msg很重要，要对msg持续关注，一旦变化就更新
         return initValue
       },
+      //set何时调用？——msg被修改时候
       set(value){
         clearTimeout(timer)
         timer = setTimeout(() => {
@@ -2621,6 +2624,30 @@ export default function(initValue:string,delay:number){
 ```
 
 组件中使用：
+
+```vue
+<template>
+	<div class="app">
+		<h2>{{ msg }}</h2>
+		<input
+			type="text"
+			v-model="msg"
+		>
+	</div>
+</template>
+
+<script setup lang="ts" name="App">
+import { ref } from 'vue'
+import useMsgRef from './useMsgRef'
+
+// 使用Vue提供的默认ref定义响应式数据，数据一变，页面就更新
+// let msg = ref('你好')
+
+// 使用useMsgRef来定义一个响应式数据且有延迟效果
+let { msg } = useMsgRef('你好', 2000)
+
+</script>
+```
 
 
 
