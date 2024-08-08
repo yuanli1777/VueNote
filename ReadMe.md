@@ -2014,15 +2014,23 @@ export const useTalkStore = defineStore('talk',()=>{
 
    ```html
    <!--在父组件中，给子组件绑定自定义事件：-->
-   <Child @send-toy="toy = $event"/>
+   <Child @send-toy="saveToy"/>
    
    <!--注意区分原生事件与自定义事件中的$event-->
    <button @click="toy = $event">测试</button>
    ```
 
    ```js
-   //子组件中，触发事件：
-   this.$emit('send-toy', 具体数据)
+   //父组件中，自定义事件被触发时所调用的函数：
+   function saveToy(value:string){
+     console.log(value)
+   }
+   ```
+
+   ```js
+   //子组件中，声明事件并触发：
+   const emit = defineEmits(['sent-toy'])
+   emit('send-toy', 具体数据)
    ```
 
 ## 6.3. 【mitt】
